@@ -1,20 +1,46 @@
 package ars.org.shoppingcartbackend.service.product;
 
 import ars.org.shoppingcartbackend.exceptions.ProductNotFoundException;
+import ars.org.shoppingcartbackend.model.Category;
 import ars.org.shoppingcartbackend.model.Product;
+import ars.org.shoppingcartbackend.repository.CategoryRepository;
 import ars.org.shoppingcartbackend.repository.ProductRepository;
+import ars.org.shoppingcartbackend.request.AddProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public void addProduct(Product product) {
+    public Product addProduct(AddProductRequest request) {
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(()->{
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+        request.setCategory(category);
+        return productRepository.save(createProduct(request,category));
 
+
+
+    }
+
+    private Product createProduct(AddProductRequest request, Category category) {
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override

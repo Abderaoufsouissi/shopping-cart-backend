@@ -6,6 +6,7 @@ import ars.org.shoppingcartbackend.model.Product;
 import ars.org.shoppingcartbackend.repository.CategoryRepository;
 import ars.org.shoppingcartbackend.repository.ProductRepository;
 import ars.org.shoppingcartbackend.request.AddProductRequest;
+import ars.org.shoppingcartbackend.request.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -50,14 +51,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(Product product, Long idProduct) {
+    public Product updateProduct(UpdateProductRequest request, Long idProduct) {
+        return productRepository.findById(idProduct)
+                .map(existingProduct->updateExistingProduct(existingProduct,request))
+                .map(productRepository::save)
+                .orElseThrow(()->new ProductNotFoundException("Product not found"));
+    }
 
+    private Product updateExistingProduct(Product existingProduct, UpdateProductRequest request) {
+        existingProduct.setName(request.getName());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setInventory(request.getInventory());
+        existingProduct.setDescription(request.getDescription());
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        existingProduct.setCategory(category);
+        return existingProduct;
     }
 
     @Override
     public void deleteProduct(Long id) {
         productRepository.findById(id)
-                .ifPresentOrElse(productRepository::delete,
+                .ifPresentOrElse(
+                        productRepository::delete,
                         ()->{throw new  ProductNotFoundException("Product not found");});
 
     }

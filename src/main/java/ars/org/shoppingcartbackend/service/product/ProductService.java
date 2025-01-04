@@ -2,13 +2,14 @@ package ars.org.shoppingcartbackend.service.product;
 
 import ars.org.shoppingcartbackend.model.Product;
 import ars.org.shoppingcartbackend.request.AddProductRequest;
+import ars.org.shoppingcartbackend.request.UpdateProductRequest;
 
 import java.util.List;
 
 public interface ProductService {
     Product getProductById(Long id);
     Product addProduct(AddProductRequest product);
-    void updateProduct(Product product,Long idProduct);
+    Product updateProduct(UpdateProductRequest product, Long idProduct);
     void deleteProduct(Long id);
     List<Product> getAllProducts();
     List<Product> getProductsByCategory(String category);

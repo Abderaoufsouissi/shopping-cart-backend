@@ -1,15 +1,13 @@
 package ars.org.shoppingcartbackend.service.image;
 
+import ars.org.shoppingcartbackend.dto.ImageDto;
 import ars.org.shoppingcartbackend.exceptions.RessourceNotFoundException;
 import ars.org.shoppingcartbackend.model.Image;
-import ars.org.shoppingcartbackend.model.Product;
 import ars.org.shoppingcartbackend.repository.ImageRepository;
-import ars.org.shoppingcartbackend.repository.ProductRepository;
 import ars.org.shoppingcartbackend.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,8 +38,8 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image saveImage(List<MultipartFile> files, Long productId) {
-        return null;
+    public List<ImageDto> saveImage(List<MultipartFile> files, Long productId) {
+
     }
 
     @Override

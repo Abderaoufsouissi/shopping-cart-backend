@@ -38,7 +38,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Void updateImage(MultipartFile file, Long productId) {
-        return null;
+    public void updateImage(MultipartFile file, Long productId) {
+
     }
 }

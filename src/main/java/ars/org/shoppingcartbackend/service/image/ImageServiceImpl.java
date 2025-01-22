@@ -25,6 +25,10 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void deleteImageById(Long id) {
+        imageRepository.findById(id).ifPresentOrElse(
+                imageRepository::delete,
+                ()-> {throw new RessourceNotFoundException("No image found with id : "+id);}
+        );
 
     }
 

@@ -1,6 +1,6 @@
 package ars.org.shoppingcartbackend.service.product;
 
-import ars.org.shoppingcartbackend.exceptions.ProductNotFoundException;
+import ars.org.shoppingcartbackend.exceptions.RessourceNotFoundException;
 import ars.org.shoppingcartbackend.model.Category;
 import ars.org.shoppingcartbackend.model.Product;
 import ars.org.shoppingcartbackend.repository.CategoryRepository;
@@ -47,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(()->new ProductNotFoundException("Product not found"));
+                .orElseThrow(()->new RessourceNotFoundException("Product not found"));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(idProduct)
                 .map(existingProduct->updateExistingProduct(existingProduct,request))
                 .map(productRepository::save)
-                .orElseThrow(()->new ProductNotFoundException("Product not found"));
+                .orElseThrow(()->new RessourceNotFoundException("Product not found"));
     }
 
     private Product updateExistingProduct(Product existingProduct, UpdateProductRequest request) {
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.findById(id)
                 .ifPresentOrElse(
                         productRepository::delete,
-                        ()->{throw new  ProductNotFoundException("Product not found");});
+                        ()->{throw new RessourceNotFoundException("Product not found");});
 
     }
 

@@ -2,8 +2,10 @@ package ars.org.shoppingcartbackend.service.image;
 
 import ars.org.shoppingcartbackend.exceptions.RessourceNotFoundException;
 import ars.org.shoppingcartbackend.model.Image;
+import ars.org.shoppingcartbackend.model.Product;
 import ars.org.shoppingcartbackend.repository.ImageRepository;
 import ars.org.shoppingcartbackend.repository.ProductRepository;
+import ars.org.shoppingcartbackend.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +20,7 @@ import java.util.List;
 public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @Override
     public Image getImageById(Long id) {
